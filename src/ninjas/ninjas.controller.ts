@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { CreateNinjaDto } from './dto/create-ninja.dto';
 import { UpdateNinjaDto } from './dto/update-ninja.dto';
 import { NinjasService } from './ninjas.service';
@@ -17,20 +26,24 @@ export class NinjasController {
   // Get a ninja
   @Get(':id')
   getNinja(@Param('id') id: string) {
-    return { id };
+    return this.ninjasService.getNinja(+id);
   }
 
   // Create a ninja
   @Post()
   createNinja(@Body() createNinjaDto: CreateNinjaDto) {
-    return { name: createNinjaDto.name };
+    return this.ninjasService.createNinja(createNinjaDto);
   }
 
   // Update a ninja
+  @Put(':id')
   updateNinja(@Param('id') id: string, @Body() updateNinjaDto: UpdateNinjaDto) {
-    return {
-      id,
-      name: updateNinjaDto,
-    };
+    return this.ninjasService.updateNinja(+id, updateNinjaDto);
+  }
+
+  // Remove a ninja
+  @Delete(':id')
+  removeNinja(@Param('id') id: string) {
+    return this.ninjasService.removeNinja(+id);
   }
 }
